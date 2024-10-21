@@ -1,0 +1,16 @@
+{
+	"name": "js-calculator",
+	"version": "1.0.0",
+	"main": "script.js",
+	"scripts": {
+		"start": "parcel src/index.html",
+		"build": "parcel build"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"devDependencies": {
+		"parcel": "^2.12.0"
+	}
+}
