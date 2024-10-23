@@ -21,22 +21,43 @@ export class Calculator {
 
 	calculate() {
 		const [divide, multiply, add, sub] = this.operators;
-		if (this.currentOperator === divide.dataset.operation) {
-			if (this.lastOperand === 0) {
-				return this.firstOperand.dataset.number;
+		const divOp = divide.dataset.operation;
+		const multiplyOp = multiply.dataset.operation;
+		const addOp = add.dataset.operation;
+		const subOp = sub.dataset.operation;
+		const primary = this.firstOperand.dataset.primaryOperand;
+		const secondary = this.lastOperand.dataset.secondaryOperand;
+		let result = 0;
+
+		if (this.currentOperator === divOp) {
+			if (this.currentOperator === 0) {
+				result = primary;
 			}
-			return this.firstOperand.dataset.number / this.lastOperand.dataset.number;
-		} else if (this.currentOperator === multiply.dataset.operation) {
-			return this.firstOperand.dataset.number * this.lastOperand.dataset.number;
-		} else if (this.currentOperator === add.dataset.operation) {
-			return (
-				Number(this.firstOperand.dataset.number) +
-				Number(this.lastOperand.dataset.number)
-			);
-		} else if (this.currentOperator === sub.dataset.operation) {
-			return this.firstOperand.dataset.number - this.lastOperand.dataset.number;
+			result = primary / secondary;
+		} else if (this.currentOperator === multiplyOp) {
+			result = primary * secondary;
+		} else if (this.currentOperator === addOp) {
+			result = Number(primary) + Number(secondary);
+		} else if (this.currentOperator === subOp) {
+			result = primary - secondary;
 		} else {
 			console.log('No valid operators are given!');
 		}
+
+		return result;
+	}
+
+	clearCalculator() {
+		this.firstOperand.dataset.primaryOperand = '';
+		this.lastOperand.dataset.secondaryOperand = '';
+		this.firstOperand.textContent = '0';
+		this.lastOperand.textContent = '';
+	}
+
+	deleteLastNumber() {
+		stringArrayForFirstOperand = Array.from(
+			this.firstOperand.dataset.primaryOperand
+		);
+		stringArrayForFirstOperand.pop();
 	}
 }
