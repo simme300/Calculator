@@ -1,63 +1,111 @@
 export class Calculator {
-	constructor(
-		numbers,
-		firstOperand,
-		lastOperand,
-		operators,
-		del,
-		clear,
-		output,
-		currentOperator
-	) {
-		this.numbers = numbers;
+	constructor(firstOperand, lastOperand, currentOperator) {
 		this.firstOperand = firstOperand;
 		this.lastOperand = lastOperand;
-		this.operators = operators;
-		this.del = del;
-		this.clear = clear;
-		this.output = output;
 		this.currentOperator = currentOperator;
 	}
 
-	calculate() {
-		const [divide, multiply, add, sub] = this.operators;
-		const divOp = divide.dataset.operation;
-		const multiplyOp = multiply.dataset.operation;
-		const addOp = add.dataset.operation;
-		const subOp = sub.dataset.operation;
-		const primary = this.firstOperand.dataset.primaryOperand;
-		const secondary = this.lastOperand.dataset.secondaryOperand;
+	addNumbers() {
+		return (
+			Number(this.firstOperand.dataset.primaryOperand) +
+			Number(this.lastOperand.dataset.secondaryOperand)
+		);
+	}
+
+	subtractNumbers() {
+		return (
+			Number(this.firstOperand.dataset.primaryOperand) -
+			Number(this.lastOperand.dataset.secondaryOperand)
+		);
+	}
+
+	divideNumbers() {
+		return (
+			Number(this.firstOperand.dataset.primaryOperand) /
+			Number(this.lastOperand.dataset.secondaryOperand)
+		);
+	}
+
+	multiplyNumbers() {
+		return (
+			Number(this.firstOperand.dataset.primaryOperand) *
+			Number(this.lastOperand.dataset.secondaryOperand)
+		);
+	}
+
+	calculate(target) {
 		let result = 0;
-
-		if (this.currentOperator === divOp) {
-			if (this.currentOperator === 0) {
-				result = primary;
-			}
-			result = primary / secondary;
-		} else if (this.currentOperator === multiplyOp) {
-			result = primary * secondary;
-		} else if (this.currentOperator === addOp) {
-			result = Number(primary) + Number(secondary);
-		} else if (this.currentOperator === subOp) {
-			result = primary - secondary;
-		} else {
-			console.log('No valid operators are given!');
+		if (target === '*') {
+			result = this.multiplyNumbers();
+		} else if (target === '-') {
+			result = this.subtractNumbers();
+		} else if (target === '÷') {
+			result = this.divideNumbers();
+		} else if (target === '+') {
+			result = this.divideNumbers();
 		}
+		this.firstOperand.textContent = result;
+	}
 
-		return result;
+	clearFirstOperand() {
+		this.firstOperand.textContent = '0';
+		this.firstOperand.dataset.primaryOperand = '';
+	}
+
+	clearSecondOperand() {
+		this.lastOperand.dataset.secondaryOperand = '';
+		this.lastOperand.textContent = '';
 	}
 
 	clearCalculator() {
 		this.firstOperand.dataset.primaryOperand = '';
-		this.lastOperand.dataset.secondaryOperand = '';
 		this.firstOperand.textContent = '0';
+		this.lastOperand.dataset.secondaryOperand = '';
 		this.lastOperand.textContent = '';
 	}
 
 	deleteLastNumber() {
-		stringArrayForFirstOperand = Array.from(
-			this.firstOperand.dataset.primaryOperand
-		);
-		stringArrayForFirstOperand.pop();
+		let txtHolder = '';
+		if (this.firstOperand.textContent.length > 1) {
+			txtHolder = this.firstOperand.textContent.slice(0, -1);
+			this.firstOperand.textContent = txtHolder;
+		} else if (
+			this.firstOperand.textContent.length === 1 &&
+			this.firstOperand.textContent !== '0'
+		) {
+			this.clearFirstOperand();
+		}
+	}
+
+	appendNumbers(target) {
+		if (
+			this.firstOperand.textContent === '0' &&
+			this.firstOperand.textContent.length === 1
+		) {
+			this.firstOperand.textContent = target;
+			this.firstOperand.dataset.primaryOperand = this.firstOperand.textContent;
+		} else if (
+			this.firstOperand.textContent !== '0' &&
+			this.firstOperand.textContent.length >= 1
+		) {
+			this.firstOperand.textContent += target;
+			this.firstOperand.dataset.primaryOperand = this.firstOperand.textContent;
+		}
+		if (this.firstOperand.textContent.length >= 16) {
+			let strHolder = this.firstOperand.textContent.slice(0, 16);
+			this.firstOperand.textContent = strHolder;
+			this.firstOperand.dataset.primaryOperand = this.firstOperand.textContent;
+		}
+	}
+
+	addOperator(target) {
+		this.currentOperator = target;
+		this.lastOperand.dataset.secondaryOperand =
+			this.firstOperand.dataset.primaryOperand;
+		this.lastOperand.textContent +=
+			this.lastOperand.dataset.secondaryOperand + target;
+
+		this.firstOperand.textContent = '0';
+		this.firstOperand.dataset.primaryOperand = '';
 	}
 }
