@@ -1,87 +1,52 @@
 export class Calculator {
-	#operatorCount = 0;
 	constructor() {
 		this.firstOperand = document.querySelector('.primary-operand');
 		this.secondOperand = document.querySelector('.secondary-operand');
+		this.result = 0;
 		this.currentOperator = '';
-	}
-
-	incrementOpCount() {
-		this.#operatorCount++;
-		console.log(this.#operatorCount);
-	}
-
-	get opCount() {
-		return this.#operatorCount;
-	}
-
-	setOperatorCount() {
-		this.#operatorCount = 1;
-	}
-
-	resetOpCount() {
-		this.#operatorCount = 0;
-	}
-	decrementOpCount() {
-		if (this.#operatorCount > 1) {
-			this.#operatorCount--;
-		}
 	}
 
 	addNumbers() {
 		return (
-			Number(this.firstOperand.dataset.primaryOperand) +
-			Number(this.secondOperand.dataset.secondaryOperand)
+			Number(this.secondOperand.dataset.secondaryOperand) +
+			Number(this.firstOperand.dataset.primaryOperand)
 		);
 	}
 
 	subtractNumbers() {
 		return (
-			Number(this.firstOperand.dataset.primaryOperand) -
-			Number(this.secondOperand.dataset.secondaryOperand)
+			Number(this.secondOperand.dataset.secondaryOperand) -
+			Number(this.firstOperand.dataset.primaryOperand)
 		);
 	}
 
 	divideNumbers() {
 		return (
-			Number(this.firstOperand.dataset.primaryOperand) /
-			Number(this.secondOperand.dataset.secondaryOperand)
+			Number(this.secondOperand.dataset.secondaryOperand) /
+			Number(this.firstOperand.dataset.primaryOperand)
 		);
 	}
 
 	multiplyNumbers() {
 		return (
-			parseFloat(this.firstOperand.dataset.primaryOperand) *
-			parseFloat(this.secondOperand.dataset.secondaryOperand)
+			Number(this.secondOperand.dataset.secondaryOperand) *
+			Number(this.firstOperand.dataset.primaryOperand)
 		);
 	}
 
 	calculate(equals = '') {
-		let result = 0;
 		if (this.currentOperator === '*') {
-			result = this.multiplyNumbers();
+			this.result = this.multiplyNumbers();
 		} else if (this.currentOperator === '-') {
-			result = this.subtractNumbers();
+			this.result = this.subtractNumbers();
 		} else if (this.currentOperator === '÷') {
-			result = this.divideNumbers();
+			this.result = this.divideNumbers();
 		} else if (this.currentOperator === '+') {
-			result = this.appendNumbers();
+			this.result = this.addNumbers();
 		}
 
-		if (equals) {
-			this.secondOperand.textContent =
-				this.firstOperand.textContent +
-				this.currentOperator +
-				this.secondOperand.dataset.secondaryOperand +
-				equals;
-			this.firstOperand.textContent = result;
-			this.resetOpCount();
-		} else {
-			this.secondOperand.textContent = result + this.currentOperator;
-			this.firstOperand.textContent = result;
-			this.secondOperand.dataset.secondaryOperand = result;
-			this.setOperatorCount();
-		}
+		this.secondOperand.textContent += this.firstOperand.textContent + equals;
+		this.firstOperand.textContent = this.result;
 	}
 
 	clearFirstOperand() {
@@ -136,17 +101,13 @@ export class Calculator {
 			this.firstOperand.textContent = this.firstOperand.dataset.primaryOperand;
 		}
 	}
+	addOperator(target) {
+		this.currentOperator = target;
+		this.secondOperand.dataset.secondaryOperand =
+			this.firstOperand.dataset.primaryOperand;
 
-	addOperator(operator) {
-		this.incrementOpCount();
-		if (this.opCount > 1) {
-			this.currentOperator = operator;
-			this.calculate();
-		}
-		this.currentOperator = operator;
-		this.secondOperand.dataset.secondaryOperand = this.firstOperand.textContent;
 		this.secondOperand.textContent =
-			this.secondOperand.dataset.secondaryOperand + operator;
+			this.secondOperand.dataset.secondaryOperand + target;
 
 		this.clearFirstOperand();
 	}
