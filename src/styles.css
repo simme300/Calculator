@@ -64,3 +64,7 @@ body {
 	color: white;
 	font-size: 2.5rem;
 }
+
+.output .data-operation {
+	margin-right: 4px;
+}

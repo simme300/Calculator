@@ -1,8 +1,6 @@
 import { Calculator } from './calculator';
 
-const firstOperand = document.querySelector('.primary-operand');
-const secondOperand = document.querySelector('.secondary-operand');
-const calc = new Calculator(firstOperand, secondOperand);
+const calc = new Calculator();
 
 document.addEventListener('click', (e) => {
 	if (!e.target.closest('button[data-number]')) return;
