@@ -6,7 +6,7 @@ export class Calculator {
 		this.currentOperator = '';
 		this.numberArray = [];
 		this.resultArray = [];
-		this.regEx = /[*+-÷]/;
+		this.regEx = /[*+\-÷]/;
 	}
 
 	addNumbers() {
@@ -52,14 +52,13 @@ export class Calculator {
 			this.clearSecondOperand();
 			this.numberArray = [];
 			this.resultArray.push(this.result);
-		} else {
-			this.resultArray.push(this.result);
-			this.firstOperand.textContent = this.result;
-			this.secondOperand.textContent = this.result + this.currentOperator;
-			this.secondOperand.dataset.secondaryOperand = this.result;
-			this.firstOperand.dataset.primaryOperand = '';
-			this.numberArray = [];
 		}
+		this.resultArray.push(this.result);
+		this.firstOperand.textContent = this.result;
+		this.secondOperand.textContent = this.result + this.currentOperator;
+		this.secondOperand.dataset.secondaryOperand = this.result;
+		this.firstOperand.dataset.primaryOperand = '';
+		this.numberArray = [];
 	}
 
 	clearFirstOperand() {
@@ -105,7 +104,15 @@ export class Calculator {
 
 	addOperator(target) {
 		this.currentOperator = target;
-		if (this.regEx.test(this.secondOperand.textContent)) {
+		// check if second-operand already contains operator
+		const operatorPresent = this.secondOperand.textContent.match(this.regEx);
+		if (operatorPresent) {
+			this.currentOperator = operatorPresent[0];
+			if (this.currentOperator !== target) {
+				this.currentOperator = target;
+			} else {
+				this.currentOperator = operatorPresent[0];
+			}
 			this.calculate();
 		} else {
 			this.secondOperand.dataset.secondaryOperand = this.convertArrayToString(
