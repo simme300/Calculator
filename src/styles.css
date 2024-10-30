@@ -68,3 +68,27 @@ body {
 .output .data-operation {
 	margin-right: 4px;
 }
+
+/* .primary-operand {
+	color: white;
+	font-size: 2.5rem;
+	position: relative;
+}
+
+.primary-operand::after {
+	content: '';
+	display: inline-block;
+	width: 1px;
+	height: 100%;
+	background-color: white;
+	animation: blink 1s steps(1) infinite;
+	position: absolute;
+	right: -2px;
+}
+
+
+@keyframes blink {
+	50% {
+		opacity: 0;
+	}
+}  */
