@@ -4,7 +4,17 @@ const calc = new Calculator();
 
 document.addEventListener('click', (e) => {
 	if (!e.target.closest('button[data-number]')) return;
-	calc.appendNumbers(e.target.textContent);
+	calc.appendNumberToSring(e.target.textContent);
+});
+
+document.addEventListener('click', (e) => {
+	if (!e.target.closest('button[data-delete]')) return;
+	calc.removeLastNumber();
+});
+
+document.addEventListener('click', (e) => {
+	if (!e.target.closest('button[data-all-clear]')) return;
+	calc.clearCalculator();
 });
 
 document.addEventListener('click', (e) => {
@@ -14,15 +24,5 @@ document.addEventListener('click', (e) => {
 
 document.addEventListener('click', (e) => {
 	if (!e.target.closest('button[data-equals]')) return;
-	calc.calculate(e.target.textContent);
-});
-
-document.addEventListener('click', (e) => {
-	if (!e.target.closest('button[data-delete]')) return;
-	calc.deleteLastNumber();
-});
-
-document.addEventListener('click', (e) => {
-	if (!e.target.closest('button[data-all-clear]')) return;
-	calc.clearCalculator();
+	calc.calculate();
 });
